@@ -19,22 +19,24 @@ class Solution {
       */  
     public boolean wordBreak(String s, List<String> wordDict) {
         int n = s.length();
-        int[] tp = new int[n];
-        Arrays.fill(tp, -1);
-        HashSet<String> hs = new HashSet<String>(wordDict);
-        return helper(0, n, s, hs, tp);
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        HashSet<String> hs = new HashSet<>(wordDict);
+        return wordBreakRecursion(0, n, s, hs, dp);
     }
     
-    public boolean helper(int pos, int n, String s, HashSet<String> hs, int[] tp){
-        if(pos>=n) return true;
-        if(tp[pos]!=-1) return tp[pos]==1 ? true : false;
-        for(int i=pos+1;i<=n;i++){
-            if(hs.contains(s.substring(pos, i)) && helper(i, n, s, hs, tp)){
-                tp[pos] = 1;
+    public boolean wordBreakRecursion(int pos, int n, String s, HashSet<String> hs, int[] dp) {
+        if(pos >= n)
+            return true;
+        if(dp[pos] != -1)
+            return dp[pos] == 1 ? true:false;
+        for(int i=pos+1; i<=n; i++) {
+            if(hs.contains(s.substring(pos, i)) && wordBreakRecursion(i, n, s, hs, dp)) {
+                dp[pos] = 1;
                 return true;
             }
         }
-        tp[pos] = 0;
+        dp[pos] = 0;
         return false;
         
         /*
