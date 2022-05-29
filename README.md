@@ -1,1 +1,1 @@
-# Leetcode-Practice
+# DSA-Practice
