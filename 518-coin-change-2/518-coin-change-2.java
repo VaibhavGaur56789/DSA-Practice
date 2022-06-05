@@ -1,7 +1,8 @@
 class Solution {
     
     //Memoization
-    public int change(int amount, int[] coins) {
+    
+   /* public int change(int amount, int[] coins) {
         int n = coins.length;
         
         int[][] dp = new int[n][amount+1];
@@ -31,10 +32,30 @@ class Solution {
         
         return dp[ind][amount] = taken + notTaken; 
     }
+}*/
+
+    //Tabulation
+    
+    public int change(int amount, int[] coins) {
+        
+        int n = coins.length;
+        int[][] dp = new int[n][amount+1];
+        
+        for(int i=0; i<=amount; i++) {
+            if(i % coins[0] == 0)
+                dp[0][i] = 1;
+        }
+        
+        for(int ind = 1; ind < n; ind++) {
+            for(int target = 0; target <= amount; target++) {
+                int notTaken = dp[ind-1][target];
+                int taken = 0;
+                if(coins[ind] <= target) {
+                    taken = dp[ind][target - coins[ind]];
+                }
+                dp[ind][target] = taken + notTaken;
+            }
+        }
+        return dp[n-1][amount];
+    }
 }
-
-
-//     public int change(int amount, int[] coins) {
-            
-//     }
-// }
