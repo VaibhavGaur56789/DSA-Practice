@@ -53,16 +53,17 @@ class DriverClass
 
 //User function Template for Java
 class Pair implements Comparable<Pair> {
-    int wt, v;
-    Pair(int v, int wt) { //v --> vertex, wt --> weight
+    int wt;
+    int v;
+    Pair(int v, int wt) {
         this.v = v;
         this.wt = wt;
     }
+    
     public int compareTo(Pair that) {
         return this.wt - that.wt;
     }
 }
-
 
 class Solution
 {
@@ -73,29 +74,25 @@ class Solution
         // Write your code here
         boolean[] vis = new boolean[V];
         PriorityQueue<Pair> q = new PriorityQueue<>();
-        
-        q.add(new Pair(S, 0));
+        q.add(new Pair(S, 0)); //Adding source and 0 initially
         int[] ans = new int[V];
-        Arrays.fill(ans, 10000000); //initially infinity is added in ans array
-        ans[S] = 0;
+        Arrays.fill(ans, 10000000); //10000000 -> indicates infinity
+        ans[S] = 0; //Source is marked as 0
         
-        
-        while(q.size() != 0) {
+        while(!q.isEmpty()) {
             Pair cur = q.remove();
-            int u = cur.v; //Current vertex
-            
+            int u = cur.v; //current vertex is u
             if(vis[u]) {
-                continue; //if already visited
+                continue;
             }
-            vis[u] = true; //if not first mark it True
+            vis[u] = true;
             
-            ArrayList<ArrayList<Integer>> neighbors = adj.get(u); //get the adjacent element 
-            for(ArrayList<Integer> list: neighbors) {
+            ArrayList<ArrayList<Integer>> nei = adj.get(u); //get neighbor of the vertex
+            for(ArrayList<Integer> list : nei) {
                 int vertex = list.get(0);
-                int wt = list.get(1);
-                
-                if(ans[vertex] > ans[u] + wt) {
-                    ans[vertex] = ans[u] + wt;
+                int weight = list.get(1);
+                if(ans[vertex] > ans[u] + weight) {
+                    ans[vertex] = ans[u] + weight;
                     q.add(new Pair(vertex, ans[vertex]));
                 }
             }
